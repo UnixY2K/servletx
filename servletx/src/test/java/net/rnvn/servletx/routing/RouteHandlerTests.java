@@ -16,24 +16,27 @@ class RouteHandlerTests {
 		Route usersRoute = new Route("users");
 		Route myUserRoute = new Route("my/profile");
 		Route usersIdRoute = new Route("<id>/profile");
-		usersRoute.addChild(myUserRoute);
-		usersRoute.addChild(usersIdRoute);
-		routeHandler.addRoute(usersRoute);
+		RouteMapping myUserRouteMapping = new RouteMapping(myUserRoute, null);
+		RouteMapping usersIdRouteMapping = new RouteMapping(usersIdRoute, null);
+		RouteMapping usersRouteMapping = new RouteMapping(usersRoute, null);
+		usersRouteMapping.addChild(myUserRouteMapping);
+		usersRouteMapping.addChild(usersIdRouteMapping);
+		routeHandler.addRouteMapping(usersRouteMapping);
 	}
 
 	@Test
 	void testGetMatchingRoute() {
 		String url = "users/my/profile";
-		Route matchedRoute = routeHandler.getMatchingRoute(url);
-		assertNotNull(matchedRoute);
-		assertEquals(matchedRoute.getPath(), "my/profile");
+		RouteMapping matchedRouteMapping = routeHandler.getFirstMatchingRouteMapping(url);
+		assertNotNull(matchedRouteMapping);
+		assertEquals(matchedRouteMapping.getRoute().getPath(), "my/profile");
 	}
 
 	@Test
 	void testGetMatchingRouteWithVariable() {
 		String url = "users/123/profile";
-		Route matchedRoute = routeHandler.getMatchingRoute(url);
-		assertNotNull(matchedRoute);
-		assertEquals(matchedRoute.getPath(), "<id>/profile");
+		RouteMapping matchedRouteMapping = routeHandler.getFirstMatchingRouteMapping(url);
+		assertNotNull(matchedRouteMapping);
+		assertEquals(matchedRouteMapping.getRoute().getPath(), "<id>/profile");
 	}
 }

@@ -1,14 +1,11 @@
 package net.rnvn.servletx.routing;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Route {
 
     private String path;
-    private ArrayList<Route> childRoutes = new ArrayList<>();
 
     public Route(String path) {
         this.path = path;
@@ -18,16 +15,9 @@ public class Route {
         return path;
     }
 
-    public List<Route> getChildRoutes() {
-        return childRoutes;
-    }
-
-    public void addChild(Route route) {
-        childRoutes.add(route);
-    }
-
     public boolean checkMatchedLevels(String segment, String prependPath) {
-        String[] pathSegments = (prependPath + "/" + path).split("/");
+        String joinedPath = prependPath.length() > 0 ? prependPath + "/" + path : path;
+        String[] pathSegments = (joinedPath).split("/");
         String[] segmentSegments = segment.split("/");
         if (pathSegments.length != segmentSegments.length) {
             return false;
@@ -43,26 +33,6 @@ public class Route {
             }
         }
         return true;
-    }
-
-    public Route getMatchingRoute(String urlSegment) {
-        return getMatchingRoute(urlSegment, "");
-    }
-
-    public Route getMatchingRoute(String urlSegment, String prependPath) {
-        // first check if the current URL matches with our URL
-        if (checkMatchedLevels(urlSegment, prependPath)) {
-            return this;
-        }
-        // if not check if it matches with any of our child routes
-        for (Route route : childRoutes) {
-            // match by our url segment and the child route's url segment
-            if (route.getMatchingRoute(urlSegment, prependPath + path) != null) {
-                return route;
-            }
-        }
-
-        return null;
     }
 
     public static Map<String, String> getURLVariables(String path, String urlSegment) {

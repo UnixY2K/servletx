@@ -1,34 +1,39 @@
 package net.rnvn.servletx.routing;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import net.rnvn.servletx.controller.BaseController;
 
 public class RouteHandler {
 
-    ArrayList<Route> routes = new ArrayList<>();
+    List<RouteMapping> routes = new ArrayList<>();
 
-    public RouteHandler() {
+    public void addRoute(Route route, BaseController controller) {
+        routes.add(new RouteMapping(route, controller));
     }
 
-    ArrayList<Route> getRoutes() {
-        return routes;
+    public void addRouteMapping(RouteMapping routeMapping) {
+        routes.add(routeMapping);
     }
 
-    public void addRoute(Route route) {
-        routes.add(route);
-    }
-
-    public void addRoutes(ArrayList<Route> routes) {
-        this.routes.addAll(routes);
-    }
-
-    public Route getMatchingRoute(String url) {
-        for (Route route : routes) {
-            Route matchedRoute = route.getMatchingRoute(url);
-            if (matchedRoute != null) {
-                return matchedRoute;
+    public RouteMapping getFirstMatchingRouteMapping(String path) {
+        // if the path begins with a slash, remove it
+        if (path.startsWith("/")) {
+            path = path.substring(1);
+        }
+        for (RouteMapping routeMapping : routes) {
+            RouteMapping matchingRoute = routeMapping.getMatchingRoute(path, "");
+            if (matchingRoute != null) {
+                return matchingRoute;
             }
         }
         return null;
+    }
+
+    public BaseController getFirstMatchingController(String path) {
+        RouteMapping routeMapping = getFirstMatchingRouteMapping(path);
+        return routeMapping != null ? routeMapping.getController() : null;
     }
 
 }
