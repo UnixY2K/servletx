@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import net.rnvn.servletx.annotations.ControllerMapping;
 import net.rnvn.servletx.routing.RouteHandler;
 
 public class ControllerRouter extends HttpServlet {
@@ -94,4 +95,17 @@ public class ControllerRouter extends HttpServlet {
         }
     }
 
+    public static String getControllerRoute(Class<?> controllerClass) {
+        ControllerMapping controllerMapping = controllerClass.getAnnotation(ControllerMapping.class);
+        return null != controllerMapping && controllerMapping.value().length() > 0
+                ? controllerMapping.value()
+                : controllerClass.getSimpleName();
+    }
+
+    public static String getControllerRoute(Object controller) {
+        if (null == controller) {
+            return null;
+        }
+        return getControllerRoute(controller.getClass());
+    }
 }

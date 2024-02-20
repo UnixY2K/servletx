@@ -15,7 +15,7 @@ class RouteHandlerTests {
 		routeHandler = new RouteHandler();
 		Route usersRoute = new Route("users");
 		Route myUserRoute = new Route("my/profile");
-		Route usersIdRoute = new Route("<id>/profile");
+		Route usersIdRoute = new Route("{id}/profile");
 		RouteMapping myUserRouteMapping = new RouteMapping(myUserRoute, null);
 		RouteMapping usersIdRouteMapping = new RouteMapping(usersIdRoute, null);
 		RouteMapping usersRouteMapping = new RouteMapping(usersRoute, null);
@@ -37,6 +37,6 @@ class RouteHandlerTests {
 		String url = "users/123/profile";
 		RouteMapping matchedRouteMapping = routeHandler.getFirstMatchingRouteMapping(url);
 		assertNotNull(matchedRouteMapping);
-		assertEquals(matchedRouteMapping.getRoute().getPath(), "<id>/profile");
+		assertEquals(matchedRouteMapping.getRoute().getPath(), "{id}/profile");
 	}
 }

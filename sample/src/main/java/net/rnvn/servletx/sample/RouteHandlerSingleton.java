@@ -1,7 +1,7 @@
 package net.rnvn.servletx.sample;
 
-import net.rnvn.servletx.routing.Route;
 import net.rnvn.servletx.routing.RouteHandler;
+import net.rnvn.servletx.sample.controllers.HelloController;
 
 /**
  * singleton class that contains the RouteHandler
@@ -9,7 +9,7 @@ import net.rnvn.servletx.routing.RouteHandler;
 public class RouteHandlerSingleton {
 
     private void initRoutes() {
-        routeHandler.addRoute(new Route("hello/<name>"), new HelloController());
+        routeHandler.addRoute(new HelloController());
     }
 
     private static RouteHandlerSingleton instance = null;

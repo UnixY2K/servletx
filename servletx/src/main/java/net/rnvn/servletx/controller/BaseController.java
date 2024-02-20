@@ -11,6 +11,10 @@ import jakarta.servlet.http.HttpServletResponse;
 // mediante JSON herede de ella (sin autenticacion)
 public class BaseController extends HttpServlet {
 
+    protected String getCurrentUri(HttpServletRequest req) {
+        return req.getRequestURI().substring(req.getContextPath().length());
+    }
+
     // abstract methods [onGet, onPost]
 
     protected void onGet(

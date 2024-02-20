@@ -24,8 +24,8 @@ public class Route {
         }
         for (int i = 0; i < pathSegments.length; i++) {
             // for each segment we need to validate if our path contains a type inside the
-            // URL segment, e.g. <id>
-            if (pathSegments[i].startsWith("<") && pathSegments[i].endsWith(">")) {
+            // URL segment, e.g. {id}
+            if (pathSegments[i].startsWith("{") && pathSegments[i].endsWith("}")) {
                 continue;
             }
             if (!pathSegments[i].equals(segmentSegments[i])) {
@@ -50,8 +50,8 @@ public class Route {
         }
         // iterate over the segments
         for (int i = 0; i < urlSegments.length; i++) {
-            // if the segment is a type, e.g. <id>
-            if (urlSegments[i].startsWith("<") && urlSegments[i].endsWith(">")) {
+            // if the segment is a type, e.g. {id}
+            if (urlSegments[i].startsWith("{") && urlSegments[i].endsWith("}")) {
                 // remove the < and > from the segment
                 String type = urlSegments[i].substring(1, urlSegments[i].length() - 1);
                 // add the type and the value to the URL params

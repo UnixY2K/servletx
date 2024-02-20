@@ -4,12 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.rnvn.servletx.controller.BaseController;
+import net.rnvn.servletx.controller.ControllerRouter;
 
 public class RouteHandler {
 
     List<RouteMapping> routes = new ArrayList<>();
 
     public void addRoute(Route route, BaseController controller) {
+        routes.add(new RouteMapping(route, controller));
+    }
+
+    public void addRoute(BaseController controller) {
+        Route route = new Route(ControllerRouter.getControllerRoute(controller.getClass()));
         routes.add(new RouteMapping(route, controller));
     }
 
