@@ -6,8 +6,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import net.rnvn.servletx.controller.ControllerRouter;
 import net.rnvn.servletx.routing.RouteHandler;
 
-@WebServlet(name = "RouteController", urlPatterns = { "/" })
-public class MainServlet extends ControllerRouter {
+@WebServlet(urlPatterns = { "/" })
+public class RouteController extends ControllerRouter {
 
     @Override
     protected RouteHandler getRouteHandler() {
@@ -16,6 +16,7 @@ public class MainServlet extends ControllerRouter {
 
     @Override
     protected void on404(HttpServletRequest req, HttpServletResponse resp) {
+        // check if the request is get, if so check if the request is for a static file
         try {
             resp.getWriter().write("404");
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
