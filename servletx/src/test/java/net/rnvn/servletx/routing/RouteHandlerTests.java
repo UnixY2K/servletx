@@ -11,7 +11,7 @@ class RouteHandlerTests {
 	private static RouteHandler routeHandler;
 
 	@BeforeAll
-	public static void setUp() {
+	static void setUp() {
 		routeHandler = new RouteHandler();
 		Route usersRoute = new Route("users");
 		Route myUserRoute = new Route("my/profile");
@@ -22,7 +22,7 @@ class RouteHandlerTests {
 	}
 
 	@Test
-	public void testGetMatchingRoute() {
+	void testGetMatchingRoute() {
 		String url = "users/my/profile";
 		Route matchedRoute = routeHandler.getMatchingRoute(url);
 		assertNotNull(matchedRoute);
@@ -30,7 +30,7 @@ class RouteHandlerTests {
 	}
 
 	@Test
-	public void testGetMatchingRouteWithVariable() {
+	void testGetMatchingRouteWithVariable() {
 		String url = "users/123/profile";
 		Route matchedRoute = routeHandler.getMatchingRoute(url);
 		assertNotNull(matchedRoute);

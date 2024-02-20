@@ -65,10 +65,19 @@ public class Route {
         return null;
     }
 
-    public static Map<String, String> getURLVariables(String urlSegment) {
+    public static Map<String, String> getURLVariables(String path, String urlSegment) {
         HashMap<String, String> urlVariables = new HashMap<>();
         // first we need to split the URL segment into its parts
         String[] urlSegments = urlSegment.split("/");
+        // if the path starts with a / we need to remove it
+        if (path.startsWith("/")) {
+            path = path.substring(1);
+        }
+        String[] pathSegments = path.split("/");
+        // if the path is not the same length as the URL segment, we can't match
+        if (urlSegments.length != pathSegments.length) {
+            return urlVariables;
+        }
         // iterate over the segments
         for (int i = 0; i < urlSegments.length; i++) {
             // if the segment is a type, e.g. <id>
@@ -76,7 +85,7 @@ public class Route {
                 // remove the < and > from the segment
                 String type = urlSegments[i].substring(1, urlSegments[i].length() - 1);
                 // add the type and the value to the URL params
-                urlVariables.put(type, urlSegments[i]);
+                urlVariables.put(type, pathSegments[i]);
             }
         }
         return urlVariables;
